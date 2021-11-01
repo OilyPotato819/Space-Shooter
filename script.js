@@ -12,21 +12,18 @@ let rectSize = 80;
 let rectBlue = 255;
 let rectRed = 0;
 
-let frameCount = 0;
+let animate = false;
 
-// Main Program Loop
+// Main Program Loop (60 FPS)
 requestAnimationFrame(loop);
 function loop() {
     // Update Variables
-    frameCount++; // update frame count
-    console.log(frameCount);
-
-    if (frameCount > 180) {
+    if (animate) {
         rectX += 1;
+        rectSize += Math.random() * 2 - 1;
         rectBlue--;
         rectRed++;
     }
-    rectSize += Math.random() * 2 - 1;
 
     // Draw a background
     ctx.fillStyle = "white"
@@ -37,4 +34,15 @@ function loop() {
     ctx.fillRect(rectX, 50, rectSize, rectSize);
 
     requestAnimationFrame(loop);
+}
+
+// Event Stuff
+document.addEventListener("click", mouseclickHandler);
+
+function mouseclickHandler() {
+    if (animate) {
+        animate = false;
+    } else {
+        animate = true;
+    }
 }
