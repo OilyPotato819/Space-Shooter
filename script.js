@@ -27,7 +27,7 @@ function loop() {
     requestAnimationFrame(loop);
 }
 
-// Event Stuff
+// Document Event Stuff
 document.addEventListener("mousedown", mousedownHandler);
 document.addEventListener("mouseup", mouseupHandler);
 document.addEventListener("mousemove", mousemoveHandler);
@@ -65,3 +65,6 @@ function keydownHandler() {
         penColor = "blue";
     }
 }
+
+// Button Events
+document.getElementById("")
