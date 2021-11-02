@@ -1,1 +1,1 @@
-# Template
+# Simple Paint
