@@ -18,16 +18,27 @@ requestAnimationFrame(loop);
 function loop() {
     // Draw a circle if mouseIsPressed
     if (mouseIsPressed) {
-        for (let currentX = pmouseX; currentX != mouseX; currentX++) {
-            console.log(currentX)
-            console.log("mouseX)
-        }
         ctx.fillStyle = penColor;
         ctx.beginPath();
         ctx.arc(mouseX, mouseY, size, 0, 2 * Math.PI);
         ctx.fill();
         console.log("pmouse " + mouseX);
         console.log("mouse " + pmouseX);
+        if (mouseIsPressed) {
+            ctx.fillStyle = penColor;
+            ctx.beginPath();
+            ctx.arc(pmouseX, mouseY, size, 0, 2 * Math.PI);
+            ctx.fill();
+            if (pmouseX < mouseX) {
+                while (pmouseX != mouseX) {
+                    ctx.fillStyle = penColor;
+                    ctx.beginPath();
+                    ctx.arc(pmouseX, mouseY, size, 0, 2 * Math.PI);
+                    ctx.fill();
+                    pmouseX++;
+                }
+            }
+        }
     }
     requestAnimationFrame(loop);
 }
