@@ -1,4 +1,4 @@
-// Simple Paint
+// Space Shooter
 
 // Setup Canvas and Context
 let cnv = document.getElementById("myCanvas");
