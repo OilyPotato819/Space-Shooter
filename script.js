@@ -18,27 +18,13 @@ requestAnimationFrame(loop);
 function loop() {
     // Draw a circle if mouseIsPressed
     if (mouseIsPressed) {
-        ctx.fillStyle = penColor;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = penColor;
+        ctx.lineWidth = size;
         ctx.beginPath();
-        ctx.arc(mouseX, mouseY, size, 0, 2 * Math.PI);
-        ctx.fill();
-        console.log("pmouse " + mouseX);
-        console.log("mouse " + pmouseX);
-        if (mouseIsPressed) {
-            ctx.fillStyle = penColor;
-            ctx.beginPath();
-            ctx.arc(pmouseX, mouseY, size, 0, 2 * Math.PI);
-            ctx.fill();
-            if (pmouseX < mouseX) {
-                while (pmouseX != mouseX) {
-                    ctx.fillStyle = penColor;
-                    ctx.beginPath();
-                    ctx.arc(pmouseX, mouseY, size, 0, 2 * Math.PI);
-                    ctx.fill();
-                    pmouseX++;
-                }
-            }
-        }
+        ctx.moveTo(pmouseX, pmouseY);
+        ctx.lineTo(mouseX, mouseY);
+        ctx.stroke();
     }
     requestAnimationFrame(loop);
 }
@@ -74,11 +60,9 @@ function keydownHandler() {
         ctx.fillStyle = "white";
         ctx.fillRect(0, 0, cnv.width, cnv.height);
     } else if (event.code == "ArrowUp") {
-        size++;
-        console.log(size)
-    } else if (event.code == "ArrowDown" && size > 1) {
-        console.log(size)
-        size--;
+        size += 5;
+    } else if (event.code == "ArrowDown" && size >= 10) {
+        size -= 5;
     }
 }
 
