@@ -9,11 +9,17 @@ cnv.height = 600;
 // Global Variables
 let shipX = 50;
 let shipY = 50;
-let shipDirectionX, shipDirectionY;
-let dIsPressed = "false";
-let aIsPressed = "false";
-let wIsPressed = "false";
-let sIsPressed = "false";
+let bulletX = shipX
+let bulletY = shipY
+let shipSpeedX = 0;
+let shipSpeedY = 0;
+let dIsPressed = false;
+let aIsPressed = false;
+let wIsPressed = false;
+let sIsPressed = false;
+let bulletShot = false;
+let frameCount = 0;
+let spaceIsPressed = false;
 
 // Document Event Stuff
 document.addEventListener("keydown", keydownHandler);
@@ -21,80 +27,106 @@ document.addEventListener("keyup", keyupHandler);
 
 function keydownHandler() {
     if (event.code == "KeyD") {
-        dIsPressed = "true";
-        shipDirectionX = "right";
+        dIsPressed = true;
+        shipSpeedX = 5;
     }
     if (event.code == "KeyA") {
-        aIsPressed = "true";
-        shipDirectionX = "left";
+        aIsPressed = true;
+        shipSpeedX = -5;
     }
     if (event.code == "KeyW") {
-        wIsPressed = "true";
-        shipDirectionY = "up";
+        wIsPressed = true;
+        shipSpeedY = -5;
     }
     if (event.code == "KeyS") {
-        sIsPressed = "true";
-        shipDirectionY = "down";
+        sIsPressed = true;
+        shipSpeedY = 5;
+    }
+    if (event.code == "Space") {
+        spaceIsPressed = true;
+        bulletShot = true;
     }
 }
 
 function keyupHandler() {
     if (event.code == "KeyD") {
-        dIsPressed = "false";
-        if (aIsPressed == "true") {
-            shipDirectionX = "left";
+        dIsPressed = false;
+        if (aIsPressed == true) {
+            shipSpeedX = -5;
         } else {
-            shipDirectionX = "stay";
+            shipSpeedX = 0;
         }
     }
     if (event.code == "KeyA") {
-        aIsPressed = "false";
-        if (dIsPressed == "true") {
-            shipDirectionX = "right";
+        aIsPressed = false;
+        if (dIsPressed == true) {
+            shipSpeedX = 5;
         } else {
-            shipDirectionX = "stay";
+            shipSpeedX = 0;
         }
     }
     if (event.code == "KeyW") {
-        wIsPressed = "false";
-        if (sIsPressed == "true") {
-            shipDirectionY = "down";
+        wIsPressed = false;
+        if (sIsPressed == true) {
+            shipSpeedY = 5;
         } else {
-            shipDirectionY = "stay";
+            shipSpeedY = 0;
         }
     }
     if (event.code == "KeyS") {
-        sIsPressed = "false";
-        if (wIsPressed == "true") {
-            shipDirectionY = "up";
+        sIsPressed = false;
+        if (wIsPressed == true) {
+            shipSpeedY = -5;
         } else {
-            shipDirectionY = "stay";
+            shipSpeedY = 0;
         }
     }
+    if (event.code == "Space") {
+        spaceIsPressed = false;
+    }
+}
+
+function getCurrentFrame() {
+    var currentFrame = frameCount;
+    console.log(currentFrame, frameCount)
 }
 
 // Main Program Loop (60 FPS)
 requestAnimationFrame(loop);
 
 function loop() {
+    // Background
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, cnv.width, cnv.height);
 
-    ctx.fillStyle = "black";
-    ctx.fillRect(shipX, shipY, 50, 50);
+    // Bullet
+    if (spaceIsPressed) {
+        bulletShot = true;
+    }
 
-    if (shipDirectionX == "right") {
-        shipX += 5;
+    if (bulletShot) {
+        ctx.fillStyle = "blue";
+        ctx.fillRect(bulletX + 8, bulletY - 20, 5, 20);
+        bulletY -= 5;
     }
-    if (shipDirectionX == "left") {
-        shipX -= 5;
+
+    if (bulletY < -50) {
+        bulletShot = false;
+        bulletY = shipY;
+        bulletX = shipX;
     }
-    if (shipDirectionY == "up") {
-        shipY -= 5;
+
+    if (!bulletShot) {
+        bulletX += shipSpeedX
+        bulletY += shipSpeedY
     }
-    if (shipDirectionY == "down") {
-        shipY += 5;
-    }
+
+    // Ship
+    ctx.fillStyle = "black";
+    ctx.fillRect(shipX, shipY, 25, 25);
+
+    shipX += shipSpeedX
+    shipY += shipSpeedY
 
     requestAnimationFrame(loop);
 }
