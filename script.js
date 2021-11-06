@@ -7,83 +7,94 @@ cnv.width = 800;
 cnv.height = 600;
 
 // Global Variables
-let mouseIsPressed = false;
-let mouseX, mouseY, pmouseX, pmouseY;
-let size = 5;
-let penColor = "black";
+let shipX = 50;
+let shipY = 50;
+let shipDirectionX, shipDirectionY;
+let dIsPressed = "false";
+let aIsPressed = "false";
+let wIsPressed = "false";
+let sIsPressed = "false";
+
+// Document Event Stuff
+document.addEventListener("keydown", keydownHandler);
+document.addEventListener("keyup", keyupHandler);
+
+function keydownHandler() {
+    if (event.code == "KeyD") {
+        dIsPressed = "true";
+        shipDirectionX = "right";
+    }
+    if (event.code == "KeyA") {
+        aIsPressed = "true";
+        shipDirectionX = "left";
+    }
+    if (event.code == "KeyW") {
+        wIsPressed = "true";
+        shipDirectionY = "up";
+    }
+    if (event.code == "KeyS") {
+        sIsPressed = "true";
+        shipDirectionY = "down";
+    }
+}
+
+function keyupHandler() {
+    if (event.code == "KeyD") {
+        dIsPressed = "false";
+        if (aIsPressed == "true") {
+            shipDirectionX = "left";
+        } else {
+            shipDirectionX = "stay";
+        }
+    }
+    if (event.code == "KeyA") {
+        aIsPressed = "false";
+        if (dIsPressed == "true") {
+            shipDirectionX = "right";
+        } else {
+            shipDirectionX = "stay";
+        }
+    }
+    if (event.code == "KeyW") {
+        wIsPressed = "false";
+        if (sIsPressed == "true") {
+            shipDirectionY = "down";
+        } else {
+            shipDirectionY = "stay";
+        }
+    }
+    if (event.code == "KeyS") {
+        sIsPressed = "false";
+        if (wIsPressed == "true") {
+            shipDirectionY = "up";
+        } else {
+            shipDirectionY = "stay";
+        }
+    }
+}
 
 // Main Program Loop (60 FPS)
 requestAnimationFrame(loop);
 
 function loop() {
-    // Draw a circle if mouseIsPressed
-    if (mouseIsPressed) {
-        ctx.lineCap = "round";
-        ctx.strokeStyle = penColor;
-        ctx.lineWidth = size;
-        ctx.beginPath();
-        ctx.moveTo(pmouseX, pmouseY);
-        ctx.lineTo(mouseX, mouseY);
-        ctx.stroke();
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, cnv.width, cnv.height);
+
+    ctx.fillStyle = "black";
+    ctx.fillRect(shipX, shipY, 50, 50);
+
+    if (shipDirectionX == "right") {
+        shipX += 5;
     }
+    if (shipDirectionX == "left") {
+        shipX -= 5;
+    }
+    if (shipDirectionY == "up") {
+        shipY -= 5;
+    }
+    if (shipDirectionY == "down") {
+        shipY += 5;
+    }
+
     requestAnimationFrame(loop);
-}
-
-// Document Event Stuff
-document.addEventListener("mousedown", mousedownHandler);
-document.addEventListener("mouseup", mouseupHandler);
-document.addEventListener("mousemove", mousemoveHandler);
-document.addEventListener("keydown", keydownHandler);
-
-function mousedownHandler() {
-    mouseIsPressed = true;
-}
-
-function mouseupHandler() {
-    mouseIsPressed = false;
-}
-
-function mousemoveHandler() {
-    // Save previous mouse x and y
-    pmouseX = mouseX;
-    pmouseY = mouseY;
-
-    // Update mouseX and mouseY
-    let cnvRect = cnv.getBoundingClientRect();
-    mouseX = event.x - cnvRect.x;
-    mouseY = event.y - cnvRect.y;
-}
-
-function keydownHandler() {
-    if (event.code == "Space") {
-        // Draw a background
-        ctx.fillStyle = "white";
-        ctx.fillRect(0, 0, cnv.width, cnv.height);
-    } else if (event.code == "ArrowUp") {
-        size += 5;
-    } else if (event.code == "ArrowDown" && size >= 10) {
-        size -= 5;
-    }
-}
-
-// Color Events
-document.getElementById("redBtn").addEventListener("click", setRed);
-document.getElementById("greenBtn").addEventListener("click", setGreen);
-document.getElementById("blueBtn").addEventListener("click", setBlue);
-document.getElementById("color-picker").addEventListener("change", changeColor);
-
-function setRed() {
-    penColor = "red";
-}
-
-function setGreen() {
-    penColor = "green";
-}
-
-function setBlue() {
-    penColor = "blue";
-}
-
-function changeColor() {
-    penColor = document.getElementById("color-picker").value;
 }
