@@ -9,13 +9,16 @@ cnv.height = 600;
 // Global Variables
 let shipX = 50;
 let shipY = 50;
-let bulletX = shipX;
-let bulletY = shipY;
+let bullet1X = shipX + 10;
+let bullet1Y = shipY - 20;
+let bullet2X = shipX + 10;
+let bullet2Y = shipY - 20;
 let dIsPressed = false;
 let aIsPressed = false;
 let wIsPressed = false;
 let sIsPressed = false;
-let bulletShot = false;
+let bullet1Shot = false;
+let bullet2Shot = false;
 let frameCount = 0;
 let currentFrame = 0;
 let getCurrentFrame = false;
@@ -58,6 +61,7 @@ function keyupHandler() {
     }
     if (event.code == "Space") {
         spaceIsPressed = false;
+        frameCount = 0;
     }
 }
 
@@ -65,46 +69,46 @@ function keyupHandler() {
 requestAnimationFrame(loop);
 
 function loop() {
-    console.log(currentFrame)
-    frameCount++;
-
     // Background
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, cnv.width, cnv.height);
 
-    // Bullet
+    // Bullet1
     if (spaceIsPressed) {
-        bulletShot = true;
-    }
+        bullet1Shot = true;
 
-    if (bulletShot) {
-        ctx.fillStyle = "blue";
-        ctx.fillRect(bulletX + 10, bulletY - 20, 5, 20);
-        bulletY -= 7;
-
-        if (currentFrame == 0) {
-            getCurrentFrame = true;
-        }
-
-        if (getCurrentFrame) {
-            currentFrame = frameCount;
-            console.log(currentFrame)
-            getCurrentFrame = false;
-        }
-    
-        if (currentFrame + 50 == frameCount) {
+        frameCount++
+        if (frameCount = 50) {
             console.log("grebis")
-            currentFrame = 0;
         }
     }
 
-    if (bulletY < -50) {
-        bulletShot = false;
+
+    if (bullet1Shot) {
+        ctx.fillStyle = "blue";
+        ctx.fillRect(bullet1X, bullet1Y, 5, 20);
+        bullet1Y -= 7;
     }
 
-    if (!bulletShot) {
-        bulletX = shipX;
-        bulletY = shipY;
+    if (!bullet1Shot) {
+        bullet1X = shipX + 10;
+        bullet1Y = shipY - 20;
+    }
+
+    // Bullet2
+    if (bullet2Shot) {
+        ctx.fillStyle = "blue";
+        ctx.fillRect(bullet2X, bullet2Y, 5, 20);
+        bullet2Y -= 7;
+    }
+
+    if (bullet2Y < -50) {
+        bullet2Shot = false;
+    }
+
+    if (!bullet2Shot) {
+        bullet2X = shipX + 10;
+        bullet2Y = shipY - 20;
     }
 
     // Ship
