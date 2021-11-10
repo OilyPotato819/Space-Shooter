@@ -61,7 +61,6 @@ function keyupHandler() {
     }
     if (event.code == "Space") {
         spaceIsPressed = false;
-        frameCount = 0;
     }
 }
 
@@ -69,25 +68,28 @@ function keyupHandler() {
 requestAnimationFrame(loop);
 
 function loop() {
+    console.log(bullet2Shot)
     // Background
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, cnv.width, cnv.height);
 
     // Bullet1
-    if (spaceIsPressed) {
-        bullet1Shot = true;
-
-        frameCount++
-        if (frameCount = 50) {
-            console.log("grebis")
-        }
-    }
-
-
     if (bullet1Shot) {
         ctx.fillStyle = "blue";
         ctx.fillRect(bullet1X, bullet1Y, 5, 20);
         bullet1Y -= 7;
+
+        frameCount++;
+        if (frameCount == 100) {
+            bullet1Shot = false;
+            frameCount = 0;
+            bullet1X = shipX + 10;
+            bullet1Y = shipY - 20;
+        }
+    }
+
+    if (spaceIsPressed == true) {
+        bullet1Shot = true;
     }
 
     if (!bullet1Shot) {
@@ -95,15 +97,19 @@ function loop() {
         bullet1Y = shipY - 20;
     }
 
-    // Bullet2
+    // // Bullet2
     if (bullet2Shot) {
         ctx.fillStyle = "blue";
         ctx.fillRect(bullet2X, bullet2Y, 5, 20);
-        bullet2Y -= 7;
-    }
+        bullet1Y -= 7;
 
-    if (bullet2Y < -50) {
-        bullet2Shot = false;
+        frameCount++;
+        if (frameCount == 100) {
+            bullet2Shot = false;
+            frameCount = 0;
+            bullet2X = shipX + 10;
+            bullet2Y = shipY - 20;
+        }
     }
 
     if (!bullet2Shot) {
