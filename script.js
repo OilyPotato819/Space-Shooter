@@ -7,22 +7,24 @@ cnv.width = 800;
 cnv.height = 600;
 
 // Global Variables
-let shipX = 50;
-let shipY = 50;
+let shipX = 300;
+let shipY = 590;
 let bullet1X = shipX + 10;
 let bullet1Y = shipY - 20;
 let bullet2X = shipX + 10;
 let bullet2Y = shipY - 20;
+let bullet1Shot = false;
+let bullet2Shot = false;
+let useBullet2 = 0;
 let dIsPressed = false;
 let aIsPressed = false;
 let wIsPressed = false;
 let sIsPressed = false;
-let bullet1Shot = false;
-let bullet2Shot = false;
-let frameCount = 0;
+let spaceIsPressed = false;
+let frameCount1 = 0;
+let frameCount2 = 0;
 let currentFrame = 0;
 let getCurrentFrame = false;
-let spaceIsPressed = false;
 
 // Document Event Stuff
 document.addEventListener("keydown", keydownHandler);
@@ -43,6 +45,9 @@ function keydownHandler() {
     }
     if (event.code == "Space") {
         spaceIsPressed = true;
+        if (useBullet2 == 1) {
+            useBullet2++;
+        }
     }
 }
 
@@ -61,6 +66,9 @@ function keyupHandler() {
     }
     if (event.code == "Space") {
         spaceIsPressed = false;
+        if (useBullet2 == 0 && bullet1Shot) {
+            useBullet2++;
+        }
     }
 }
 
@@ -68,7 +76,7 @@ function keyupHandler() {
 requestAnimationFrame(loop);
 
 function loop() {
-    console.log(bullet2Shot)
+    console.log(useBullet2)
     // Background
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, cnv.width, cnv.height);
@@ -77,14 +85,20 @@ function loop() {
     if (bullet1Shot) {
         ctx.fillStyle = "blue";
         ctx.fillRect(bullet1X, bullet1Y, 5, 20);
-        bullet1Y -= 7;
+        bullet1Y -= 10;
 
-        frameCount++;
-        if (frameCount == 100) {
+        frameCount1++;
+        if (frameCount1 == 30 && spaceIsPressed) {
+            bullet2Shot = true;
+            bullet2X = shipX + 10;
+            bullet2Y = shipY - 20;
+        }
+        if (frameCount1 == 60) {
             bullet1Shot = false;
-            frameCount = 0;
+            frameCount1 = 0;
             bullet1X = shipX + 10;
             bullet1Y = shipY - 20;
+            useBullet2 = 0;
         }
     }
 
@@ -98,17 +112,21 @@ function loop() {
     }
 
     // // Bullet2
+    if (useBullet2 == 2) {
+        bullet2Shot = true;
+    }
     if (bullet2Shot) {
         ctx.fillStyle = "blue";
         ctx.fillRect(bullet2X, bullet2Y, 5, 20);
-        bullet1Y -= 7;
+        bullet2Y -= 10;
 
-        frameCount++;
-        if (frameCount == 100) {
+        frameCount2++;
+        if (frameCount2 == 60) {
             bullet2Shot = false;
-            frameCount = 0;
+            frameCount2 = 0;
             bullet2X = shipX + 10;
             bullet2Y = shipY - 20;
+            useBullet2 = 0;
         }
     }
 
