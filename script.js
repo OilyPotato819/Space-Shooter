@@ -76,8 +76,6 @@ function keyupHandler() {
 requestAnimationFrame(loop);
 
 function loop() {
-    console.log(whichBullet)
-
     // Background
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, cnv.width, cnv.height);
@@ -98,12 +96,6 @@ function loop() {
                 whichBullet = 1;
             }
             spaceFrameCount = 0;
-        } else if (spaceFrameCount > 50) {
-            if (whichBullet == 1) {
-                whichBullet = 
-            } else {
-                whichBullet = 
-            }
         } else if (whichBullet == "1up") {
             whichBullet = 2;
         } else if (whichBullet == "2up") {
@@ -121,7 +113,7 @@ function loop() {
 
     // Bullet1
     if (bullet1Shot) {
-        ctx.fillStyle = "blue";
+        ctx.fillStyle = "red";
         ctx.fillRect(bullet1X, bullet1Y, 5, 20);
         bullet1Y -= 5;
 
@@ -142,7 +134,7 @@ function loop() {
 
     // // Bullet2
     if (bullet2Shot) {
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "blue";
         ctx.fillRect(bullet2X, bullet2Y, 5, 20);
         bullet2Y -= 5;
 
