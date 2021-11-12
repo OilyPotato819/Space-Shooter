@@ -8,18 +8,15 @@ cnv.height = 600;
 
 // Global Variables
 let shipX = 100;
-let shipY = 575;
 let bullet1X = shipX + 10;
-let bullet1Y = shipY - 20;
+let bullet1Y = 480;
 let bullet2X = shipX + 10;
-let bullet2Y = shipY - 20;
+let bullet2Y = 480;
 let bullet1Shot = false;
 let bullet2Shot = false;
 let whichBullet = "2up";
 let rightIsPressed = false;
 let leftIsPressed = false;
-let upIsPressed = false;
-let downIsPressed = false;
 let spaceIsPressed = false;
 let frameCount1 = 0;
 let frameCount2 = 0;
@@ -36,12 +33,6 @@ function keydownHandler() {
     if (event.code == "KeyA" || event.code == "ArrowLeft") {
         leftIsPressed = true;
     }
-    if (event.code == "KeyW" || event.code == "ArrowUp") {
-        upIsPressed = true;
-    }
-    if (event.code == "KeyS" || event.code == "ArrowDown") {
-        downIsPressed = true;
-    }
     if (event.code == "Space") {
         spaceIsPressed = true;
     }
@@ -54,18 +45,15 @@ function keyupHandler() {
     if (event.code == "KeyA" || event.code == "ArrowLeft") {
         leftIsPressed = false;
     }
-    if (event.code == "KeyW" || event.code == "ArrowUp") {
-        upIsPressed = false;
-    }
-    if (event.code == "KeyS" || event.code == "ArrowDown") {
-        downIsPressed = false;
-    }
     if (event.code == "Space") {
         spaceIsPressed = false;
         if (whichBullet == 1) {
             whichBullet = "1up";
-        }
-        if (whichBullet == 2) {
+        } else if (whichBullet == 2) {
+            whichBullet = "2up";
+        } else if (whichBullet == "1wait") {
+            whichBullet = "1up";
+        } else if (whichBullet == "2wait") {
             whichBullet = "2up";
         }
         spaceFrameCount = 0;
@@ -83,8 +71,14 @@ function loop() {
     // Decide which bullet to shoot
     if (spaceIsPressed) {
         spaceFrameCount++;
-        if (spaceFrameCount == 50) {
+        if (spaceFrameCount == 2) {
             if (whichBullet == 1) {
+                whichBullet = "1wait";
+            } else {
+                whichBullet = "2wait";
+            }
+        } else if (spaceFrameCount == 30) {
+            if (whichBullet == "1wait") {
                 whichBullet = 2;
             } else {
                 whichBullet = 1;
@@ -109,60 +103,55 @@ function loop() {
     if (bullet1Shot) {
         ctx.fillStyle = "red";
         ctx.fillRect(bullet1X, bullet1Y, 5, 20);
-        bullet1Y -= 5;
+        bullet1Y -= 10;
 
         frameCount1++;
-        if (frameCount1 == 100) {
+        if (frameCount1 == 60) {
             bullet1Shot = false;
             frameCount1 = 0;
             bullet1X = shipX + 10;
-            bullet1Y = shipY - 20;
+            bullet1Y = 480;
         }
     }
 
     // Update bullet1 position
     if (!bullet1Shot) {
         bullet1X = shipX + 10;
-        bullet1Y = shipY - 20;
+        bullet1Y = 480
     }
 
     // // Bullet2
     if (bullet2Shot) {
         ctx.fillStyle = "blue";
         ctx.fillRect(bullet2X, bullet2Y, 5, 20);
-        bullet2Y -= 5;
+        bullet2Y -= 10;
 
         frameCount2++;
-        if (frameCount2 == 100) {
+        if (frameCount2 == 60) {
             bullet2Shot = false;
             frameCount2 = 0;
             bullet2X = shipX + 10;
-            bullet2Y = shipY - 20;
+            bullet2Y = 480;
         }
     }
 
     // Update bullet2 position
     if (!bullet2Shot) {
         bullet2X = shipX + 10;
-        bullet2Y = shipY - 20;
+        bullet2Y = 480;
     }
 
     // Ship
 
     // Draw
     ctx.fillStyle = "black";
-    ctx.fillRect(shipX, shipY, 25, 25);
+    ctx.fillRect(shipX, 500, 25, 25);
 
     // Move
     if (rightIsPressed) {
         shipX += 5;
     } else if (leftIsPressed) {
         shipX -= 5;
-    }
-    if (upIsPressed) {
-        shipY -= 5;
-    } else if (downIsPressed) {
-        shipY += 5;
     }
 
     // Prevent ship from going off screen
@@ -171,12 +160,6 @@ function loop() {
     }
     if (shipX > cnv.width) {
         shipX = -15;
-    }
-    if (shipY < 0) {
-        shipY = 0;
-    }
-    if (shipY > cnv.height - 25) {
-        shipY = cnv.height - 25;
     }
 
     requestAnimationFrame(loop);
