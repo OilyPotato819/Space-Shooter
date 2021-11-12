@@ -86,13 +86,7 @@ function loop() {
         if (spaceFrameCount == 50) {
             if (whichBullet == 1) {
                 whichBullet = 2;
-            } else if (whichBullet == 2) {
-                whichBullet = 1;
-            }
-        } else if (spaceFrameCount == 100) {
-            if (whichBullet == 1) {
-                whichBullet = 2;
-            } else if (whichBullet == 2) {
+            } else {
                 whichBullet = 1;
             }
             spaceFrameCount = 0;
