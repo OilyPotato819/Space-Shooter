@@ -15,7 +15,7 @@ let bullet2X = shipX + 10;
 let bullet2Y = shipY - 20;
 let bullet1Shot = false;
 let bullet2Shot = false;
-let whichBullet = 0;
+let whichBullet = "2up";
 let rightIsPressed = false;
 let leftIsPressed = false;
 let upIsPressed = false;
@@ -63,10 +63,10 @@ function keyupHandler() {
     if (event.code == "Space") {
         spaceIsPressed = false;
         if (whichBullet == 1) {
-            whichBullet = 2;
+            whichBullet = "1up";
         }
-        if (whichBullet == 3) {
-            whichBullet = 0;
+        if (whichBullet == 2) {
+            whichBullet = "2up";
         }
         spaceFrameCount = 0;
     }
@@ -77,6 +77,7 @@ requestAnimationFrame(loop);
 
 function loop() {
     console.log(whichBullet)
+
     // Background
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, cnv.width, cnv.height);
@@ -84,23 +85,29 @@ function loop() {
     // Decide which bullet to shoot
     if (spaceIsPressed) {
         spaceFrameCount++;
-        if (spaceFrameCount == 30) {
+        if (spaceFrameCount == 50) {
             if (whichBullet == 1) {
-                whichBullet = 3;
-            } else if (whichBullet == 3) {
+                whichBullet = 2;
+            } else if (whichBullet == 2) {
                 whichBullet = 1;
             }
-        } else if (spaceFrameCount == 60) {
+        } else if (spaceFrameCount == 100) {
             if (whichBullet == 1) {
-                whichBullet = 3;
-            } else if (whichBullet == 3) {
+                whichBullet = 2;
+            } else if (whichBullet == 2) {
                 whichBullet = 1;
             }
             spaceFrameCount = 0;
-        } else if (whichBullet == 0) {
+        } else if (spaceFrameCount > 50) {
+            if (whichBullet == 1) {
+                whichBullet = 
+            } else {
+                whichBullet = 
+            }
+        } else if (whichBullet == "1up") {
+            whichBullet = 2;
+        } else if (whichBullet == "2up") {
             whichBullet = 1;
-        } else if (whichBullet == 2) {
-            whichBullet = 3;
         }
     }
 
@@ -108,7 +115,7 @@ function loop() {
         bullet1Shot = true;
     }
 
-    if (whichBullet == 3) {
+    if (whichBullet == 2) {
         bullet2Shot = true;
     }
 
@@ -116,10 +123,10 @@ function loop() {
     if (bullet1Shot) {
         ctx.fillStyle = "blue";
         ctx.fillRect(bullet1X, bullet1Y, 5, 20);
-        bullet1Y -= 10;
+        bullet1Y -= 5;
 
         frameCount1++;
-        if (frameCount1 == 60) {
+        if (frameCount1 == 100) {
             bullet1Shot = false;
             frameCount1 = 0;
             bullet1X = shipX + 10;
@@ -135,12 +142,12 @@ function loop() {
 
     // // Bullet2
     if (bullet2Shot) {
-        ctx.fillStyle = "blue";
+        ctx.fillStyle = "red";
         ctx.fillRect(bullet2X, bullet2Y, 5, 20);
-        bullet2Y -= 10;
+        bullet2Y -= 5;
 
         frameCount2++;
-        if (frameCount2 == 60) {
+        if (frameCount2 == 100) {
             bullet2Shot = false;
             frameCount2 = 0;
             bullet2X = shipX + 10;
