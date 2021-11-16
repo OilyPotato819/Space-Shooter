@@ -21,6 +21,8 @@ let spaceIsPressed = false;
 let frameCount1 = 0;
 let frameCount2 = 0;
 let spaceFrameCount = 0;
+let enemiesX = 70;
+let enemiesY = 70;
 
 // Document Event Stuff
 document.addEventListener("keydown", keydownHandler);
@@ -64,17 +66,19 @@ function keyupHandler() {
 requestAnimationFrame(loop);
 
 function loop() {
-    // Background
+    // console.log()
+
+    // BACKGROUND
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, cnv.width, cnv.height);
 
-    // Decide which bullet to shoot
+    // WHICH BULLET IS SHOT
     if (spaceIsPressed) {
         spaceFrameCount++;
         if (spaceFrameCount == 2) {
             if (whichBullet == 1) {
                 whichBullet = "1wait";
-            } else {
+            } else if (whichBullet == 2) {
                 whichBullet = "2wait";
             }
         } else if (spaceFrameCount == 30) {
@@ -84,9 +88,9 @@ function loop() {
                 whichBullet = 1;
             }
             spaceFrameCount = 0;
-        } else if (whichBullet == "1up") {
+        } else if (whichBullet == "1up" && !bullet2Shot) {
             whichBullet = 2;
-        } else if (whichBullet == "2up") {
+        } else if (whichBullet == "2up" && !bullet1Shot) {
             whichBullet = 1;
         }
     }
@@ -99,7 +103,7 @@ function loop() {
         bullet2Shot = true;
     }
 
-    // Bullet1
+    // BULLET1
     if (bullet1Shot) {
         ctx.fillStyle = "red";
         ctx.fillRect(bullet1X, bullet1Y, 5, 20);
@@ -114,13 +118,13 @@ function loop() {
         }
     }
 
-    // Update bullet1 position
+    // update bullet1 position
     if (!bullet1Shot) {
         bullet1X = shipX + 10;
         bullet1Y = 480
     }
 
-    // // Bullet2
+    // BULLET2
     if (bullet2Shot) {
         ctx.fillStyle = "blue";
         ctx.fillRect(bullet2X, bullet2Y, 5, 20);
@@ -135,32 +139,76 @@ function loop() {
         }
     }
 
-    // Update bullet2 position
+    // update bullet2 position
     if (!bullet2Shot) {
         bullet2X = shipX + 10;
         bullet2Y = 480;
     }
 
-    // Ship
+    // SHIP
 
-    // Draw
+    // draw
     ctx.fillStyle = "black";
     ctx.fillRect(shipX, 500, 25, 25);
 
-    // Move
+    // move
     if (rightIsPressed) {
         shipX += 5;
     } else if (leftIsPressed) {
         shipX -= 5;
     }
 
-    // Prevent ship from going off screen
+    // prevent ship from going off screen
     if (shipX < -15) {
         shipX = cnv.width;
     }
     if (shipX > cnv.width) {
         shipX = -15;
     }
+
+    // ENEMIES
+    for (var enemyX = enemiesX; enemyX < 700; enemyX += 100) {
+        ctx.fillStyle = "red";
+        ctx.fillRect(enemyX, 70, 25, 25);
+        if (enemyX > bullet1X && enemyX < bullet1X + 25) {
+            console.log("greebis")
+        }
+    }
+    enemiesX++;
+    // // enemy 1
+    // ctx.fillStyle = "red";
+    // ctx.fillRect(enemyX, enemyY, 25, 25);
+
+    // // enemy 2
+    // enemyX += 100;
+    // ctx.fillStyle = "red";
+    // ctx.fillRect(enemyX, enemyY, 25, 25);
+
+    // // enemy 3
+    // enemyX += 100;
+    // ctx.fillStyle = "red";
+    // ctx.fillRect(enemyX, enemyY, 25, 25);
+
+    // // enemy 4
+    // enemyX += 100;
+    // ctx.fillStyle = "red";
+    // ctx.fillRect(enemyX, enemyY, 25, 25);
+
+    // // enemy 5
+    // enemyX += 100;
+    // ctx.fillStyle = "red";
+    // ctx.fillRect(enemyX, enemyY, 25, 25);
+
+    // // enemy 6
+    // enemyX += 100;
+    // ctx.fillStyle = "red";
+    // ctx.fillRect(enemyX, enemyY, 25, 25);
+
+    // // enemy 7
+    // enemyX += 100;
+    // ctx.fillStyle = "red";
+    // ctx.fillRect(enemyX, enemyY, 25, 25);
+    // enemyX -= 600;
 
     requestAnimationFrame(loop);
 }
