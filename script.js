@@ -21,8 +21,31 @@ let spaceIsPressed = false;
 let frameCount1 = 0;
 let frameCount2 = 0;
 let spaceFrameCount = 0;
-let enemiesX = 70;
-let enemiesY = 70;
+let enemy1 = {
+    x: 70,
+    y: 70,
+    alive: true
+}
+let enemy2 = {
+    x: 170,
+    y: 70,
+    alive: true
+}
+let enemy3 = {
+    x: 270,
+    y: 70,
+    alive: true
+}
+let enemy4 = {
+    x: 370,
+    y: 70,
+    alive: true
+}
+let enemy5 = {
+    x: 470,
+    y: 70,
+    alive: true
+}
 
 // Document Event Stuff
 document.addEventListener("keydown", keydownHandler);
@@ -167,48 +190,28 @@ function loop() {
     }
 
     // ENEMIES
-    for (var enemyX = enemiesX; enemyX < 700; enemyX += 100) {
-        ctx.fillStyle = "red";
-        ctx.fillRect(enemyX, 70, 25, 25);
-        if (enemyX > bullet1X && enemyX < bullet1X + 25) {
-            console.log("greebis")
-        }
-    }
-    enemiesX++;
-    // // enemy 1
-    // ctx.fillStyle = "red";
-    // ctx.fillRect(enemyX, enemyY, 25, 25);
+    // enemy 1
+    ctx.fillStyle = "red";
+    ctx.fillRect(enemy1.x, enemy1.y, 25, 25);
 
-    // // enemy 2
-    // enemyX += 100;
-    // ctx.fillStyle = "red";
-    // ctx.fillRect(enemyX, enemyY, 25, 25);
+    // enemy 2
+    ctx.fillStyle = "red";
+    ctx.fillRect(enemy2.x, enemy2.y, 25, 25);
 
-    // // enemy 3
-    // enemyX += 100;
-    // ctx.fillStyle = "red";
-    // ctx.fillRect(enemyX, enemyY, 25, 25);
+    // enemy 3
+    ctx.fillStyle = "red";
+    ctx.fillRect(enemy3.x, enemy3.y, 25, 25);
 
-    // // enemy 4
-    // enemyX += 100;
-    // ctx.fillStyle = "red";
-    // ctx.fillRect(enemyX, enemyY, 25, 25);
+    // enemy 4
+    ctx.fillStyle = "red";
+    ctx.fillRect(enemy4.x, enemy4.y, 25, 25);
 
-    // // enemy 5
-    // enemyX += 100;
-    // ctx.fillStyle = "red";
-    // ctx.fillRect(enemyX, enemyY, 25, 25);
+    // enemy 5
+    ctx.fillStyle = "red";
+    ctx.fillRect(enemy5.x, enemy5.y, 25, 25);
 
-    // // enemy 6
-    // enemyX += 100;
-    // ctx.fillStyle = "red";
-    // ctx.fillRect(enemyX, enemyY, 25, 25);
-
-    // // enemy 7
-    // enemyX += 100;
-    // ctx.fillStyle = "red";
-    // ctx.fillRect(enemyX, enemyY, 25, 25);
-    // enemyX -= 600;
+    // COLLISION
+    if (bullet1X )
 
     requestAnimationFrame(loop);
 }
