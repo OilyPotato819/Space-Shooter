@@ -193,6 +193,13 @@ function loop() {
     // enemy 1
     ctx.fillStyle = "red";
     ctx.fillRect(enemy1.x, enemy1.y, 25, 25);
+    if (bullet1X > enemy1.x && bullet1X < enemy1.x + 25 && bullet1Y > enemy1.y && bullet1Y < enemy1.y + 20) {
+        bullet1Shot = false;
+        frameCount1 = 0;
+    } else if (bullet2X > enemy1.x && bullet2X < enemy1.x + 25 && bullet2Y > enemy1.y && bullet2Y < enemy1.y + 20) {
+        bullet2Shot = false;
+        frameCount2 = 0;
+    }
 
     // enemy 2
     ctx.fillStyle = "red";
@@ -211,7 +218,9 @@ function loop() {
     ctx.fillRect(enemy5.x, enemy5.y, 25, 25);
 
     // COLLISION
-    if (bullet1X )
+    // if (bullet1X > enemy1.x || bullet1X > enemy2.x || bullet1X > enemy3.x || bullet1X > enemy4.x || bullet1X > enemy5.x && bullet1X < enemy1.x + 25 || bullet1X < enemy2.x + 25 || bullet1X < enemy3.x + 25 || bullet1X < enemy4.x + 25 || bullet1X < enemy5.x + 25) {
+    //     console.log("yee")
+    // }
 
     requestAnimationFrame(loop);
 }
