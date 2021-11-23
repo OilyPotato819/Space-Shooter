@@ -169,8 +169,13 @@ function loop() {
     // SHIP
 
     // draw
-    ctx.fillStyle = "black";
-    ctx.fillRect(shipX, 500, 25, 25);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "black";
+    ctx.beginPath();
+    ctx.moveTo(shipX, 480);
+    ctx.lineTo(shipX, 495);
+    ctx.lineTo(shipX - 10, 495);
+    ctx.stroke();
 
     // move
     if (rightIsPressed) {
@@ -233,7 +238,7 @@ function loop() {
     // enemy 4
     ctx.fillStyle = "red";
     ctx.fillRect(enemy4.x, enemy4.y, 25, 25);
-    
+
     if (bullet1X > enemy4.x && bullet1X < enemy4.x + 25 && bullet1Y > enemy4.y && bullet1Y < enemy4.y + 20) {
         bullet1Shot = false;
         frameCount1 = 0;
