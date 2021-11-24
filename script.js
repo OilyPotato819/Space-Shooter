@@ -7,11 +7,16 @@ cnv.width = 800;
 cnv.height = 600;
 
 // Global Variables
+let enemy1_1 = document.getElementById("enemy1-1_img")
+let enemy1_2 = document.getElementById("enemy1-2_img")
+let enemy1Count;
+let shipImg = document.getElementById("ship_img");
+let backgroundImg = document.getElementById("background_img");
+let backgroundY1 = 0;
+let backgroundY2 = -600;
 let shipX = 100;
-let bullet1X = shipX + 10;
-let bullet1Y = 480;
-let bullet2X = shipX + 10;
-let bullet2Y = 480;
+let bullet1X, bullet1Y;
+let bullet2X, bullet2Y;
 let bullet1Shot = false;
 let bullet2Shot = false;
 let whichBullet = "2up";
@@ -91,7 +96,16 @@ function loop() {
 
     // BACKGROUND
     ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, cnv.width, cnv.height);
+    ctx.drawImage(backgroundImg, 0, backgroundY1)
+    ctx.drawImage(backgroundImg, 0, backgroundY2)
+    backgroundY1 += 3;
+    backgroundY2 += 3;
+    if (backgroundY1 > 600) {
+        backgroundY1 = -600;
+    }
+    if (backgroundY2 > 600) {
+        backgroundY2 = -600;
+    }
 
     // WHICH BULLET IS SHOT
     if (spaceIsPressed) {
@@ -141,8 +155,8 @@ function loop() {
 
     // update bullet1 position
     if (!bullet1Shot) {
-        bullet1X = shipX + 10;
-        bullet1Y = 480
+        bullet1X = shipX + 45;
+        bullet1Y = 450
     }
 
     // BULLET2
@@ -162,20 +176,14 @@ function loop() {
 
     // update bullet2 position
     if (!bullet2Shot) {
-        bullet2X = shipX + 10;
-        bullet2Y = 480;
+        bullet2X = shipX + 45;
+        bullet2Y = 450;
     }
 
     // SHIP
 
     // draw
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = "black";
-    ctx.beginPath();
-    ctx.moveTo(shipX, 480);
-    ctx.lineTo(shipX, 495);
-    ctx.lineTo(shipX - 10, 495);
-    ctx.stroke();
+    ctx.drawImage(shipImg, shipX, 450, 100, 100)
 
     // move
     if (rightIsPressed) {
@@ -185,17 +193,24 @@ function loop() {
     }
 
     // prevent ship from going off screen
-    if (shipX < -15) {
+    if (shipX < -70) {
         shipX = cnv.width;
     }
     if (shipX > cnv.width) {
-        shipX = -15;
+        shipX = -70;
     }
 
     // ENEMIES
     // enemy 1
     ctx.fillStyle = "red";
-    ctx.fillRect(enemy1.x, enemy1.y, 25, 25);
+    enemy1Count++;
+    if (enemy1Count <= 30 && enemy1Count > 0) {
+        ctx.drawImage(enemy1_1, enemy1.x, enemy1.y);
+    } else {
+        ctx.drawImage(enemy1_2, enemy1.x, enemy1.y);
+        if (enemy1Count == 30)
+        enemy1Count = 0;
+    }
 
     if (bullet1X > enemy1.x && bullet1X < enemy1.x + 25 && bullet1Y > enemy1.y && bullet1Y < enemy1.y + 20) {
         bullet1Shot = false;
