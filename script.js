@@ -9,7 +9,7 @@ cnv.height = 600;
 // Global Variables
 let enemy1_1 = document.getElementById("enemy1-1_img")
 let enemy1_2 = document.getElementById("enemy1-2_img")
-let enemy1Count;
+let enemy1Count = 0;
 let shipImg = document.getElementById("ship_img");
 let backgroundImg = document.getElementById("background_img");
 let backgroundY1 = 0;
@@ -204,19 +204,19 @@ function loop() {
     // enemy 1
     ctx.fillStyle = "red";
     enemy1Count++;
-    if (enemy1Count <= 30 && enemy1Count > 0) {
-        ctx.drawImage(enemy1_1, enemy1.x, enemy1.y);
+    if (enemy1Count <= 40 && enemy1Count > 0) {
+        ctx.drawImage(enemy1_1, enemy1.x, enemy1.y, 80, 80);
     } else {
-        ctx.drawImage(enemy1_2, enemy1.x, enemy1.y);
-        if (enemy1Count == 30)
-        enemy1Count = 0;
+        ctx.drawImage(enemy1_2, enemy1.x, enemy1.y, 80, 80);
+        if (enemy1Count > 40)
+        enemy1Count = -40;
     }
 
-    if (bullet1X > enemy1.x && bullet1X < enemy1.x + 25 && bullet1Y > enemy1.y && bullet1Y < enemy1.y + 20) {
+    if (bullet1X > enemy1.x + 20 && bullet1X < enemy1.x + 55 && bullet1Y > enemy1.y + 10 && bullet1Y < enemy1.y + 60) {
         bullet1Shot = false;
         frameCount1 = 0;
         enemy1.y = -1000;
-    } else if (bullet2X > enemy1.x && bullet2X < enemy1.x + 25 && bullet2Y > enemy1.y && bullet2Y < enemy1.y + 20) {
+    } else if (bullet2X > enemy1.x + 20 && bullet2X < enemy1.x + 55 && bullet2Y > enemy1.y + 10 && bullet2Y < enemy1.y + 60) {
         bullet2Shot = false;
         frameCount2 = 0;
         enemy1.y = -1000;
