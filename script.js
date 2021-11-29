@@ -7,9 +7,11 @@ cnv.width = 800;
 cnv.height = 600;
 
 // Global Variables
-let enemy1_1 = document.getElementById("enemy1-1_img")
-let enemy1_2 = document.getElementById("enemy1-2_img")
-let enemy1Count = 0;
+let enemy1_1 = document.getElementById("enemy1-1_img");
+let enemy1_2 = document.getElementById("enemy1-2_img");
+let enemy2_1 = document.getElementById("enemy2-1_img");
+let enemy2_2 = document.getElementById("enemy2-2_img");
+let explodeImg = document.getElementById("explode_img");
 let shipImg = document.getElementById("ship_img");
 let backgroundImg = document.getElementById("background_img");
 let backgroundY1 = 0;
@@ -27,24 +29,34 @@ let frameCount1 = 0;
 let frameCount2 = 0;
 let spaceFrameCount = 0;
 let enemy1 = {
-    x: 70,
-    y: 70,
+    x: 60,
+    y: 65,
+    count: 0,
+    explode: false
 }
 let enemy2 = {
-    x: 170,
+    x: 210,
     y: 70,
+    count: 0,
+    explode: false
 }
 let enemy3 = {
-    x: 270,
-    y: 70,
+    x: 350,
+    y: 65,
+    count: 0,
+    explode: false
 }
 let enemy4 = {
-    x: 370,
+    x: 490,
     y: 70,
+    count: 0,
+    explode: false
 }
 let enemy5 = {
-    x: 470,
-    y: 70,
+    x: 630,
+    y: 65,
+    count: 0,
+    explode: false
 }
 
 // Document Event Stuff
@@ -202,80 +214,115 @@ function loop() {
 
     // ENEMIES
     // enemy 1
-    ctx.fillStyle = "red";
-    enemy1Count++;
-    if (enemy1Count <= 40 && enemy1Count > 0) {
+    enemy1.count++;
+    if (enemy1.count <= 40 && enemy1.count > 0) {
         ctx.drawImage(enemy1_1, enemy1.x, enemy1.y, 80, 80);
     } else {
         ctx.drawImage(enemy1_2, enemy1.x, enemy1.y, 80, 80);
-        if (enemy1Count > 40)
-        enemy1Count = -40;
+        if (enemy1.count > 40) {
+            enemy1.count = -40;
+        }
     }
 
     if (bullet1X > enemy1.x + 20 && bullet1X < enemy1.x + 55 && bullet1Y > enemy1.y + 10 && bullet1Y < enemy1.y + 60) {
+        enemy1.explode = true;
         bullet1Shot = false;
         frameCount1 = 0;
-        enemy1.y = -1000;
     } else if (bullet2X > enemy1.x + 20 && bullet2X < enemy1.x + 55 && bullet2Y > enemy1.y + 10 && bullet2Y < enemy1.y + 60) {
+        enemy1.explode = true;
         bullet2Shot = false;
         frameCount2 = 0;
-        enemy1.y = -1000;
     }
 
     // enemy 2
-    ctx.fillStyle = "red";
-    ctx.fillRect(enemy2.x, enemy2.y, 25, 25);
+    enemy2.count++;
+    if (enemy2.count <= 40 && enemy2.count > 0) {
+        ctx.drawImage(enemy2_1, enemy2.x, enemy2.y, 70, 70);
+    } else {
+        ctx.drawImage(enemy2_2, enemy2.x, enemy2.y, 70, 70);
+        if (enemy2.count > 40) {
+            enemy2.count = -40;
+        }
+    }
 
-    if (bullet1X > enemy2.x && bullet1X < enemy2.x + 25 && bullet1Y > enemy2.y && bullet1Y < enemy2.y + 20) {
+    if (bullet1X > enemy2.x + 20 && bullet1X < enemy2.x + 70 && bullet1Y > enemy2.y && bullet1Y < enemy2.y + 70 || bullet1X > enemy2.x - 5 && bullet1X < enemy2.x + 30 && bullet1Y > enemy2.y + 20 && bullet1Y < enemy2.y + 40) {
         bullet1Shot = false;
+        
         frameCount1 = 0;
         enemy2.y = -1000;
-    } else if (bullet2X > enemy2.x && bullet2X < enemy2.x + 25 && bullet2Y > enemy2.y && bullet2Y < enemy2.y + 20) {
+    } else if (bullet2X > enemy2.x + 20 && bullet2X < enemy2.x + 70 && bullet2Y > enemy2.y && bullet2Y < enemy2.y + 70 || bullet2X > enemy2.x - 5 && bullet2X < enemy2.x + 30 && bullet2Y > enemy2.y + 20 && bullet2Y < enemy2.y + 40) {
         bullet2Shot = false;
         frameCount2 = 0;
         enemy2.y = -1000;
     }
 
     // enemy 3
-    ctx.fillStyle = "red";
-    ctx.fillRect(enemy3.x, enemy3.y, 25, 25);
+    enemy3.count++;
+    if (enemy3.count <= 40 && enemy3.count > 0) {
+        ctx.drawImage(enemy1_1, enemy3.x, enemy3.y, 80, 80);
+    } else {
+        ctx.drawImage(enemy1_2, enemy3.x, enemy3.y, 80, 80);
+        if (enemy3.count > 40) {
+            enemy3.count = -40;
+        }
+    }
 
-    if (bullet1X > enemy3.x && bullet1X < enemy3.x + 25 && bullet1Y > enemy3.y && bullet1Y < enemy3.y + 20) {
+    if (bullet1X > enemy3.x + 20 && bullet1X < enemy3.x + 55 && bullet1Y > enemy3.y + 10 && bullet1Y < enemy3.y + 60) {
         bullet1Shot = false;
         frameCount1 = 0;
         enemy3.y = -1000;
-    } else if (bullet2X > enemy3.x && bullet2X < enemy3.x + 25 && bullet2Y > enemy3.y && bullet2Y < enemy3.y + 20) {
+    } else if (bullet2X > enemy3.x + 20 && bullet2X < enemy3.x + 55 && bullet2Y > enemy3.y + 10 && bullet2Y < enemy3.y + 60) {
         bullet2Shot = false;
         frameCount2 = 0;
         enemy3.y = -1000;
     }
 
     // enemy 4
-    ctx.fillStyle = "red";
-    ctx.fillRect(enemy4.x, enemy4.y, 25, 25);
+    enemy4.count++;
+    if (enemy4.count <= 40 && enemy4.count > 0) {
+        ctx.drawImage(enemy2_1, enemy4.x, enemy4.y, 70, 70);
+    } else {
+        ctx.drawImage(enemy2_2, enemy4.x, enemy4.y, 70, 70);
+        if (enemy4.count > 40) {
+            enemy4.count = -40;
+        }
+    }
 
-    if (bullet1X > enemy4.x && bullet1X < enemy4.x + 25 && bullet1Y > enemy4.y && bullet1Y < enemy4.y + 20) {
+    if (bullet1X > enemy4.x + 20 && bullet1X < enemy4.x + 70 && bullet1Y > enemy4.y && bullet1Y < enemy4.y + 70 || bullet1X > enemy4.x - 5 && bullet1X < enemy4.x + 30 && bullet1Y > enemy4.y + 20 && bullet1Y < enemy4.y + 40) {
         bullet1Shot = false;
         frameCount1 = 0;
         enemy4.y = -1000;
-    } else if (bullet2X > enemy4.x && bullet2X < enemy4.x + 25 && bullet2Y > enemy4.y && bullet2Y < enemy4.y + 20) {
+    } else if (bullet2X > enemy4.x + 20 && bullet2X < enemy4.x + 70 && bullet2Y > enemy4.y && bullet2Y < enemy4.y + 70 || bullet2X > enemy4.x - 5 && bullet2X < enemy4.x + 30 && bullet2Y > enemy4.y + 20 && bullet2Y < enemy4.y + 40) {
         bullet2Shot = false;
         frameCount2 = 0;
         enemy4.y = -1000;
     }
 
     // enemy 5
-    ctx.fillStyle = "red";
-    ctx.fillRect(enemy5.x, enemy5.y, 25, 25);
+    enemy5.count++;
+    if (enemy5.count <= 40 && enemy5.count > 0) {
+        ctx.drawImage(enemy1_1, enemy5.x, enemy5.y, 80, 80);
+    } else {
+        ctx.drawImage(enemy1_2, enemy5.x, enemy5.y, 80, 80);
+        if (enemy5.count > 40) {
+            enemy5.count = -40;
+        }
+    }
 
-    if (bullet1X > enemy5.x && bullet1X < enemy5.x + 25 && bullet1Y > enemy5.y && bullet1Y < enemy5.y + 20) {
+    if (bullet1X > enemy5.x + 20 && bullet1X < enemy5.x + 55 && bullet1Y > enemy5.y + 10 && bullet1Y < enemy5.y + 60) {
         bullet1Shot = false;
         frameCount1 = 0;
         enemy5.y = -1000;
-    } else if (bullet2X > enemy5.x && bullet2X < enemy5.x + 25 && bullet2Y > enemy5.y && bullet2Y < enemy5.y + 20) {
+    } else if (bullet2X > enemy5.x + 20 && bullet2X < enemy5.x + 55 && bullet2Y > enemy5.y + 10 && bullet2Y < enemy5.y + 60) {
         bullet2Shot = false;
         frameCount2 = 0;
         enemy5.y = -1000;
+    }
+
+    // explode
+    if (enemy1.explode) {
+        ctx.drawImage(explodeImg, enemy1.x, enemy1.y, 80, 80);
+        enemy1.x = 1000;
     }
 
     requestAnimationFrame(loop);
