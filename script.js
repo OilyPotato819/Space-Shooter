@@ -28,33 +28,34 @@ let spaceIsPressed = false;
 let frameCount1 = 0;
 let frameCount2 = 0;
 let spaceFrameCount = 0;
+let explode1X, explode1Y, explode2X, explode2Y, explode3X, explode3Y, explode4X, explode4Y, explode5X, explode5Y
 let enemy1 = {
     x: 60,
-    y: 65,
+    y: 20,
     count: 0,
     explode: false
 }
 let enemy2 = {
     x: 210,
-    y: 70,
+    y: 15,
     count: 0,
     explode: false
 }
 let enemy3 = {
     x: 350,
-    y: 65,
+    y: 20,
     count: 0,
     explode: false
 }
 let enemy4 = {
     x: 490,
-    y: 70,
+    y: 15,
     count: 0,
     explode: false
 }
 let enemy5 = {
     x: 630,
-    y: 65,
+    y: 20,
     count: 0,
     explode: false
 }
@@ -112,11 +113,11 @@ function loop() {
     ctx.drawImage(backgroundImg, 0, backgroundY2)
     backgroundY1 += 3;
     backgroundY2 += 3;
-    if (backgroundY1 > 600) {
-        backgroundY1 = -600;
+    if (backgroundY1 > cnv.height) {
+        backgroundY1 = cnv.height * -1;
     }
-    if (backgroundY2 > 600) {
-        backgroundY2 = -600;
+    if (backgroundY2 > cnv.height) {
+        backgroundY2 = cnv.height * -1;
     }
 
     // WHICH BULLET IS SHOT
@@ -195,7 +196,7 @@ function loop() {
     // SHIP
 
     // draw
-    ctx.drawImage(shipImg, shipX, 450, 100, 100)
+    ctx.drawImage(shipImg, shipX, 430, 100, 100)
 
     // move
     if (rightIsPressed) {
@@ -212,6 +213,9 @@ function loop() {
         shipX = -70;
     }
 
+    // health
+    ctx.drawImage(shipImg, 10, 510, 70, 70)
+
     // ENEMIES
     // enemy 1
     enemy1.count++;
@@ -225,35 +229,54 @@ function loop() {
     }
 
     if (bullet1X > enemy1.x + 20 && bullet1X < enemy1.x + 55 && bullet1Y > enemy1.y + 10 && bullet1Y < enemy1.y + 60) {
-        enemy1.explode = true;
+        explode1();
         bullet1Shot = false;
         frameCount1 = 0;
     } else if (bullet2X > enemy1.x + 20 && bullet2X < enemy1.x + 55 && bullet2Y > enemy1.y + 10 && bullet2Y < enemy1.y + 60) {
-        enemy1.explode = true;
+        explode1();
         bullet2Shot = false;
         frameCount2 = 0;
+    }
+    function explode1() {
+        enemy1.explode = true;
+        explode1X = enemy1.x;
+        explode1Y = enemy1.y;
+        enemy1.x = 1000;
+        enemy1.count = -80;
+    }
+    if (enemy1.count < -40) {
+        ctx.drawImage(explodeImg, explode1X, explode1Y, 80, 80);
     }
 
     // enemy 2
     enemy2.count++;
     if (enemy2.count <= 40 && enemy2.count > 0) {
-        ctx.drawImage(enemy2_1, enemy2.x, enemy2.y, 70, 70);
+        ctx.drawImage(enemy2_1, enemy2.x, enemy2.y, 80, 80);
     } else {
-        ctx.drawImage(enemy2_2, enemy2.x, enemy2.y, 70, 70);
+        ctx.drawImage(enemy2_2, enemy2.x, enemy2.y, 80, 80);
         if (enemy2.count > 40) {
             enemy2.count = -40;
         }
     }
 
     if (bullet1X > enemy2.x + 20 && bullet1X < enemy2.x + 70 && bullet1Y > enemy2.y && bullet1Y < enemy2.y + 70 || bullet1X > enemy2.x - 5 && bullet1X < enemy2.x + 30 && bullet1Y > enemy2.y + 20 && bullet1Y < enemy2.y + 40) {
+        explode2();
         bullet1Shot = false;
-        
         frameCount1 = 0;
-        enemy2.y = -1000;
     } else if (bullet2X > enemy2.x + 20 && bullet2X < enemy2.x + 70 && bullet2Y > enemy2.y && bullet2Y < enemy2.y + 70 || bullet2X > enemy2.x - 5 && bullet2X < enemy2.x + 30 && bullet2Y > enemy2.y + 20 && bullet2Y < enemy2.y + 40) {
+        explode2();
         bullet2Shot = false;
         frameCount2 = 0;
-        enemy2.y = -1000;
+    }
+    function explode2() {
+        enemy2.explode = true;
+        explode2X = enemy2.x;
+        explode2Y = enemy2.y;
+        enemy2.x = 1000;
+        enemy2.count = -80;
+    }
+    if (enemy2.count < -40) {
+        ctx.drawImage(explodeImg, explode2X, explode2Y, 80, 80);
     }
 
     // enemy 3
@@ -268,34 +291,54 @@ function loop() {
     }
 
     if (bullet1X > enemy3.x + 20 && bullet1X < enemy3.x + 55 && bullet1Y > enemy3.y + 10 && bullet1Y < enemy3.y + 60) {
+        explode3();
         bullet1Shot = false;
         frameCount1 = 0;
-        enemy3.y = -1000;
     } else if (bullet2X > enemy3.x + 20 && bullet2X < enemy3.x + 55 && bullet2Y > enemy3.y + 10 && bullet2Y < enemy3.y + 60) {
+        explode3();
         bullet2Shot = false;
         frameCount2 = 0;
-        enemy3.y = -1000;
+    }
+    function explode3() {
+        enemy3.explode = true;
+        explode3X = enemy3.x;
+        explode3Y = enemy3.y;
+        enemy3.x = 1000;
+        enemy3.count = -80;
+    }
+    if (enemy3.count < -40) {
+        ctx.drawImage(explodeImg, explode3X, explode3Y, 80, 80);
     }
 
     // enemy 4
     enemy4.count++;
     if (enemy4.count <= 40 && enemy4.count > 0) {
-        ctx.drawImage(enemy2_1, enemy4.x, enemy4.y, 70, 70);
+        ctx.drawImage(enemy2_1, enemy4.x, enemy4.y, 80, 80);
     } else {
-        ctx.drawImage(enemy2_2, enemy4.x, enemy4.y, 70, 70);
+        ctx.drawImage(enemy2_2, enemy4.x, enemy4.y, 80, 80);
         if (enemy4.count > 40) {
             enemy4.count = -40;
         }
     }
 
     if (bullet1X > enemy4.x + 20 && bullet1X < enemy4.x + 70 && bullet1Y > enemy4.y && bullet1Y < enemy4.y + 70 || bullet1X > enemy4.x - 5 && bullet1X < enemy4.x + 30 && bullet1Y > enemy4.y + 20 && bullet1Y < enemy4.y + 40) {
+        explode4();
         bullet1Shot = false;
         frameCount1 = 0;
-        enemy4.y = -1000;
     } else if (bullet2X > enemy4.x + 20 && bullet2X < enemy4.x + 70 && bullet2Y > enemy4.y && bullet2Y < enemy4.y + 70 || bullet2X > enemy4.x - 5 && bullet2X < enemy4.x + 30 && bullet2Y > enemy4.y + 20 && bullet2Y < enemy4.y + 40) {
+        explode4();
         bullet2Shot = false;
         frameCount2 = 0;
-        enemy4.y = -1000;
+    }
+    function explode4() {
+        enemy4.explode = true;
+        explode4X = enemy4.x;
+        explode4Y = enemy4.y;
+        enemy4.x = 1000;
+        enemy4.count = -80;
+    }
+    if (enemy4.count < -40) {
+        ctx.drawImage(explodeImg, explode4X, explode4Y, 80, 80);
     }
 
     // enemy 5
@@ -310,19 +353,28 @@ function loop() {
     }
 
     if (bullet1X > enemy5.x + 20 && bullet1X < enemy5.x + 55 && bullet1Y > enemy5.y + 10 && bullet1Y < enemy5.y + 60) {
+        explode5();
         bullet1Shot = false;
         frameCount1 = 0;
-        enemy5.y = -1000;
     } else if (bullet2X > enemy5.x + 20 && bullet2X < enemy5.x + 55 && bullet2Y > enemy5.y + 10 && bullet2Y < enemy5.y + 60) {
+        explode5();
         bullet2Shot = false;
         frameCount2 = 0;
-        enemy5.y = -1000;
+    }
+    function explode5() {
+        enemy5.explode = true;
+        explode5X = enemy5.x;
+        explode5Y = enemy5.y;
+        enemy5.x = 1000;
+        enemy5.count = -80;
+    }
+    if (enemy5.count < -40) {
+        ctx.drawImage(explodeImg, explode5X, explode5Y, 80, 80);
     }
 
-    // explode
-    if (enemy1.explode) {
-        ctx.drawImage(explodeImg, enemy1.x, enemy1.y, 80, 80);
-        enemy1.x = 1000;
+    // WIN
+    if (enemy1.explode && enemy2.explode && enemy3.explode && enemy4.explode && enemy5.explode) {
+        console.log("yee")
     }
 
     requestAnimationFrame(loop);
