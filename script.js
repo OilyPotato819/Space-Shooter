@@ -17,6 +17,7 @@ let backgroundImg = document.getElementById("background_img");
 let backgroundY1 = 0;
 let backgroundY2 = -600;
 let shipX = 100;
+let shipHealth = 3;
 let bullet1X, bullet1Y;
 let bullet2X, bullet2Y;
 let bullet1Shot = false;
@@ -30,34 +31,39 @@ let frameCount2 = 0;
 let spaceFrameCount = 0;
 let explode1X, explode1Y, explode2X, explode2Y, explode3X, explode3Y, explode4X, explode4Y, explode5X, explode5Y
 let enemy1 = {
-    x: 60,
+    x: -580,
     y: 20,
     count: 0,
-    explode: false
+    explode: false,
+    speed: 1,
 }
 let enemy2 = {
-    x: 210,
+    x: -430,
     y: 15,
     count: 0,
-    explode: false
+    explode: false,
+    speed: 1,
 }
 let enemy3 = {
-    x: 350,
+    x: -290,
     y: 20,
     count: 0,
-    explode: false
+    explode: false,
+    speed: 1,
 }
 let enemy4 = {
-    x: 490,
+    x: -150,
     y: 15,
     count: 0,
-    explode: false
+    explode: false,
+    speed: 1,
 }
 let enemy5 = {
-    x: 630,
+    x: -10,
     y: 20,
     count: 0,
-    explode: false
+    explode: false,
+    speed: 1,
 }
 
 // Document Event Stuff
@@ -214,7 +220,18 @@ function loop() {
     }
 
     // health
-    ctx.drawImage(shipImg, 10, 510, 70, 70)
+    ctx.font = "50px courier new";
+    ctx.fillStyle = "white";
+    ctx.fillText(shipHealth, 10, 588)
+    if (shipHealth > 0) {
+        ctx.drawImage(shipImg, 40, 530, 70, 70);
+    }
+    if (shipHealth > 1) {
+        ctx.drawImage(shipImg, 90, 530, 70, 70);
+    }
+    if (shipHealth > 2) {
+        ctx.drawImage(shipImg, 140, 530, 70, 70);
+    }
 
     // ENEMIES
     // enemy 1
@@ -370,6 +387,57 @@ function loop() {
     }
     if (enemy5.count < -40) {
         ctx.drawImage(explodeImg, explode5X, explode5Y, 80, 80);
+    }
+
+    // ANIMATE ENEMIES
+    enemy1.x += enemy1.speed;
+    enemy2.x += enemy2.speed;
+    enemy3.x += enemy3.speed;
+    enemy4.x += enemy4.speed;
+    enemy5.x += enemy5.speed;
+
+    // right side
+    if (enemy1.x > 670) {
+        enemy1.speed = -enemy1.speed;
+        enemy1.y += 85;
+    }
+    if (enemy2.x > 670) {
+        enemy2.speed = -enemy2.speed;
+        enemy2.y += 85;
+    }
+    if (enemy3.x > 670) {
+        enemy3.speed = -enemy3.speed;
+        enemy3.y += 85;
+    }
+    if (enemy4.x > 670) {
+        enemy4.speed = -enemy4.speed;
+        enemy4.y += 85;
+    }
+    if (enemy5.x > 670) {
+        enemy5.speed = -enemy5.speed;
+        enemy5.y += 85;
+    }
+
+    // left side
+    if (enemy1.x < 10 && enemy1.speed < 0) {
+        enemy1.speed = 3
+        enemy1.y += 85;
+    }
+    if (enemy2.x < 10 && enemy2.speed < 0) {
+        enemy2.speed = 3
+        enemy2.y += 85;
+    }
+    if (enemy3.x < 10 && enemy3.speed < 0) {
+        enemy3.speed = 3
+        enemy3.y += 85;
+    }
+    if (enemy4.x < 10 && enemy4.speed < 0) {
+        enemy4.speed = 3
+        enemy4.y += 85;
+    }
+    if (enemy5.x < 10 && enemy5.speed < 0) {
+        enemy5.speed = 3
+        enemy5.y += 85;
     }
 
     // WIN
